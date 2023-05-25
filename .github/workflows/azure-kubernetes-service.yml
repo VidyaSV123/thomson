@@ -38,6 +38,7 @@ env:
   AZURE_CONTAINER_REGISTRY: "vfunctionpovacr.azurecr.io"
   CONTAINER_NAME: "aspcoresample"
   RESOURCE_GROUP: "rg-vFunction-f5ol"
+  RESOURCE_GROUP2: "rg-vFunction-q32s"
   CLUSTER_NAME: "aks-vFunction"
   DEPLOYMENT_MANIFEST_PATH: "spec"
 
@@ -89,7 +90,7 @@ jobs:
       - name: Get K8s context
         uses: azure/aks-set-context@v3
         with:
-          resource-group: ${{ env.RESOURCE_GROUP }}
+          resource-group: ${{ env.RESOURCE_GROUP2 }}
           cluster-name: ${{ env.CLUSTER_NAME }}
           admin: 'false'
           use-kubelogin: 'true'
