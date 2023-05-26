@@ -40,7 +40,7 @@ env:
   RESOURCE_GROUP: "rg-vFunction-f5ol"
   RESOURCE_GROUP2: "rg-vFunction-q32s"
   CLUSTER_NAME: "aks-vFunction"
-  DEPLOYMENT_MANIFEST_PATH: "spec"
+  #DEPLOYMENT_MANIFEST_PATH: "spec"
 
 jobs:
   buildImage:
@@ -94,12 +94,26 @@ jobs:
           cluster-name: ${{ env.CLUSTER_NAME }}
           admin: 'false'
           use-kubelogin: 'true'
-
-      # Deploys application based on given manifest file
-      - name: Deploys application
+      # kubectl    
+       - name: Setup kubectl
+        id: install-kubectl
+        uses: azure/setup-kubectl@v3
+        
+      - name: Deploy to AKS
+        id: deploy-aks
         uses: Azure/k8s-deploy@v4
         with:
-          action: deploy
-          manifests: ${{ env.DEPLOYMENT_MANIFEST_PATH }}
-          images: |
-            ${{ env.AZURE_CONTAINER_REGISTRY }}.azurecr.io/${{ env.CONTAINER_NAME }}:${{ github.sha }}
+          namespace: 'default'
+          manifests: |
+             menifests.yaml
+          images: '${{ env.AZURE_CONTAINER_REGISTRY }}.azurecr.io/${{ env.CONTAINER_NAME }}/azure-vote-front:${{ github.sha }}'
+          pull-images: false 
+
+      # Deploys application based on given manifest file
+      #- name: Deploys application
+       # uses: Azure/k8s-deploy@v4
+        #with:
+         # action: deploy
+          #manifests: ${{ env.DEPLOYMENT_MANIFEST_PATH }}
+          #images: |
+           # ${{ env.AZURE_CONTAINER_REGISTRY }}.azurecr.io/${{ env.CONTAINER_NAME }}:${{ github.sha }}
