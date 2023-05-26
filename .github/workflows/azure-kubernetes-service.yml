@@ -95,9 +95,9 @@ jobs:
           admin: 'false'
           use-kubelogin: 'true'
       # kubectl    
-       - name: Setup kubectl
-        id: install-kubectl
-        uses: azure/setup-kubectl@v3
+       #- name: Setup kubectl
+        #id: install-kubectl
+        #uses: azure/setup-kubectl@v3
         
       - name: Deploy to AKS
         id: deploy-aks
